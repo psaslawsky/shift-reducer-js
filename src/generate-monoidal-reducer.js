@@ -107,6 +107,11 @@ for (let typeName in spec) {
   reduce${typeName}(node, ${param}) {
     `;
     if (fields.length === 1) {
+      // Pass the operator to set Accessibility.NONE (instead of READ) for 'typeof', 'void' and 'delete' in shift-scope-js
+      if (`${typeName}` === 'UnaryExpression') {  // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete"
+        content += `node.operand.operator = node.operator;
+    `;
+      }
       content += `return ${reduce(fields[0])};`;
     } else if (fields.length === 2) {
       content += `return this.append(${reduce(fields[0])}, ${reduce(fields[1])});`;

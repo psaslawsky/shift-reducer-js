@@ -376,6 +376,7 @@ export default class MonoidalReducer {
   }
 
   reduceUnaryExpression(node, {operand}) {
+    node.operand.operator = node.operator;
     return operand;
   }
 
